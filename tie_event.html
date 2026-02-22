@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Encounter</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body{
+    background:#0b1c2c;
+    margin:0;
+    height:100vh;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:'Press Start 2P', monospace;
+    color:white;
+}
+
+/* GAME WINDOW */
+.gamebox{
+    width:720px;
+    background:#1e2f4d;
+    border:10px solid #e6e6e6;
+    box-shadow:0 0 0 10px #0b1c2c;
+    padding:30px;
+    text-align:center;
+    position:relative;
+    z-index:5;
+}
+
+/* TITLE SHIMMER */
+.title{
+    font-size:32px;
+    color:#ffde00;
+    text-shadow:4px 4px #3b4cca;
+    animation:shimmer 2.2s infinite alternate;
+}
+
+@keyframes shimmer{
+    0%{ filter:brightness(1);}
+    50%{ filter:brightness(1.7);}
+    100%{ filter:brightness(1);}
+}
+
+.subtitle{
+    margin-top:15px;
+    font-size:14px;
+}
+
+/* INFO TEXT */
+.info{
+    font-size:12px;
+    line-height:1.8em;
+    text-align:left;
+    margin:30px auto;
+    width:80%;
+}
+
+/* BUTTONS */
+.buttons{
+    margin-top:25px;
+    display:flex;
+    justify-content:space-around;
+}
+
+button{
+    font-family:'Press Start 2P';
+    font-size:12px;
+    padding:15px 20px;
+    border:4px solid white;
+    cursor:pointer;
+}
+
+.yes{ background:#3b4cca; color:white;}
+.no{ background:#cc0000; color:white;}
+
+button:hover{ transform:translateY(-2px); }
+
+/* RAINING SPRITES */
+.rain{
+    position:fixed;
+    width:90px;
+    pointer-events:none;
+    animation:fall linear forwards;
+    z-index:1;
+}
+
+@keyframes fall{
+    from{ transform:translateY(-120px) rotate(0deg);}
+    to{ transform:translateY(110vh) rotate(360deg);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="gamebox">
+
+<div class="title">THE TIE MARKET TREMBLES</div>
+<div class="subtitle">CHOOSE AN OPTION:</div>
+
+<div class="info">
+<div>System Time: <span id="clock"></span></div>
+<div>Location: Somewhere in Campania</div>
+<div>Time: It's an illusion</div>
+<div>This is character development.</div>
+<div>Choose an option:</div>
+</div>
+
+<div class="buttons">
+<button class="yes" onclick="lockIn()">ONE MORE TIE</button>
+<button class="no" onclick="logout()">I'M GOOD</button>
+</div>
+
+</div>
+
+<audio id="bgm" loop preload="auto">
+<source src="./loop.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+/* CLOCK (Rome timezone) */
+function updateClock(){
+    const now = new Date().toLocaleTimeString("en-GB", {
+        timeZone: "Europe/Rome",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+    });
+    document.getElementById("clock").textContent = now;
+}
+setInterval(updateClock,1000);
+updateClock();
+
+/* MUSIC START */
+const bgm = document.getElementById("bgm");
+document.body.addEventListener("click", () => {
+    bgm.volume = 0.7;
+    bgm.play().catch(()=>{});
+});
+
+/* BUTTONS */
+function lockIn(){
+    window.location.href="https://www.wikihow.life/Graciously-Hint-About-a-Gift";
+}
+function logout(){
+    window.location.href="https://www.elkriverwoods.com/listing/221696073/daddys-love-ties-us-together-wooden-tie";
+}
+
+/* SPRITE RAIN */
+const images = ["sprite.png","sprite2.png"];
+
+function spawnSprite(){
+    const img = document.createElement("img");
+    img.src = images[Math.floor(Math.random()*images.length)];
+    img.className="rain";
+    img.style.left = Math.random()*100+"vw";
+    img.style.animationDuration = (4 + Math.random()*6)+"s";
+    img.style.opacity = 0.6 + Math.random()*0.4;
+    document.body.appendChild(img);
+    setTimeout(()=>img.remove(),10000);
+}
+
+setInterval(spawnSprite,350);
+</script>
+
+</body>
+</html>
